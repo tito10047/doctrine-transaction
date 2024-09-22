@@ -153,9 +153,9 @@ class TransactionTest extends TestCase
         $em = $this->createMock(EntityManagerInterface::class);
         $transaction = new Transaction($mr);
 
-        $mr->expects($this->exactly(4))
+        $mr->expects($this->exactly(6))
             ->method('getManager')
-            ->withConsecutive(['first'],['second'],['first'],['second'])
+            ->withConsecutive(['first'],['second'],['first'],['first'],['second'],['second'])
             ->willReturn($em);
         $em->expects($this->exactly(2))
             ->method('clear');
