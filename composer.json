@@ -1,0 +1,44 @@
+{
+  "name": "tito10047/doctrine-transaction",
+  "type": "library",
+  "license": "MIT",
+  "description": "Library to manage doctrine transaction",
+  "minimum-stability": "stable",
+  "require": {
+    "ext-curl": "*",
+    "php": ">=8.1"
+  },
+  "keywords": [
+    "doctrine",
+    "transaction",
+    "repository"
+  ],
+  "authors": [
+    {
+      "name": "Jozef Môstka",
+      "email": "jozef@mostka.sk",
+      "homepage": "https://github.com/tito10047/doctrine-transaction"
+    }
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Tito10047\\DoctrineTransaction\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tito10047\\DoctrineTransaction\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "doctrine/orm": "^3.2",
+    "doctrine/persistence": "^3.3",
+    "phpunit/phpunit": "^9.5"
+  },
+  "scripts": {
+    "test": "vendor/phpunit/phpunit/phpunit --no-configuration ./tests"
+  }
+}
