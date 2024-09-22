@@ -14,6 +14,13 @@ jobs:
         dbal-version:
           - "default"
           - "3.7"
+        include:
+          - php-version: "8.2"
+            dbal-version: "4@dev"
+          - php-version: "8.2"
+            dbal-version: "4@dev"
+          - php-version: "8.1"
+            dbal-version: "default"
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }} with DBAL ${{ matrix.dbal-version }}
     steps:
       - uses: actions/checkout@v4
@@ -38,9 +45,12 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: "Require specific DBAL version"
+        run: "composer require doctrine/dbal ^${{ matrix.dbal-version }} --no-update"
+        if: "${{ matrix.dbal-version != 'default' }}"
+
       - name: Install Composer dependencies
         run: |
-          composer require doctrine/dbal ^${{ matrix.dbal-version }} --no-update
           composer require doctrine/persistence --no-update
           composer global require php-coveralls/php-coveralls
 
