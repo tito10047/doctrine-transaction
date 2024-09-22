@@ -1,3 +1,6 @@
+![Tests](https://github.com/tito10047/doctrine-transaction/actions/workflows/unit-test.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/tito10047/doctrine-transaction/badge.svg?branch=main)](https://coveralls.io/github/tito10047/doctrine-transaction?branch=main)
+
 # Doctrine Transaction
 
 When you use Repository classes in your application, and don't use EntityManager directly, 
