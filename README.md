@@ -20,7 +20,8 @@ composer require tito10047/doctrine-transaction
 ```yaml
 #service.yaml
 services:
-    Tito10047\DoctrineTransaction\TransactionManager:
+    Tito10047\DoctrineTransaction\TransactionManagerInterface:
+        class: Tito10047\DoctrineTransaction\TransactionManager
 ```
 
 ```php
