@@ -20,7 +20,7 @@ composer require tito10047/doctrine-transaction
 ```yaml
 #service.yaml
 services:
-    Tito10047\DoctrineTransaction\DoctrineTransaction:
+    Tito10047\DoctrineTransaction\Transaction:
 ```
 
 ```php
