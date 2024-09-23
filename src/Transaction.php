@@ -5,7 +5,7 @@ namespace Tito10047\DoctrineTransaction;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
-class Transaction {
+class Transaction implements TransactionInterface{
 
 
 
@@ -18,19 +18,14 @@ class Transaction {
 
 	public function __construct(
 		private readonly ManagerRegistry $mr,
-		private readonly string          $defaultConnectionName = "default"
+		private readonly string          $defaultConnection
 	) {}
 
-	/**
-     * Transactions are started in the order in which they are passed to the parameter.
-	 *
-     * @param string $names entity manager names as they are listed in doctrine.yaml. If no parameter is sent, the default em is used
-	 */
-	public function begin(string ...$names): void {
-		if (count($names) === 0) {
-			$names = [$this->defaultConnectionName];
+	public function begin(string ...$connection): void {
+		if (count($connection) === 0) {
+			$connection = [$this->defaultConnection];
 		}
-		$this->currentConnections = $names;
+		$this->currentConnections = $connection;
 		foreach ($this->currentConnections as $connection) {
 			/** @var EntityManagerInterface $em */
 			$em = $this->mr->getManager($connection);
@@ -95,10 +90,10 @@ class Transaction {
 		}
 	}
 
-	public function clear(string $connectionName, string ...$entityNames): void {
-		$em = $this->mr->getManager($connectionName);
-		if (count($entityNames)) {
-			foreach ($entityNames as $name) {
+	public function clear(string $connection, string ...$entityFCN): void {
+		$em = $this->mr->getManager($connection);
+		if (count($entityFCN)) {
+			foreach ($entityFCN as $name) {
 				$em->clear($name);
 			}
 		} else {
@@ -106,12 +101,14 @@ class Transaction {
 		}
 	}
 
-	public function addRollbackHandler(callable $handler): void {
+	public function addRollbackHandler(callable $handler): self {
 		$this->rollbackHandlers[] = $handler;
+        return $this;
 	}
 
-	public function addCommitHandler(callable $handler): void {
+	public function addCommitHandler(callable $handler): self {
 		$this->commitHandlers[] = $handler;
+        return $this;
 	}
 
 	public function reset():void {

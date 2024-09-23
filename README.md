@@ -20,35 +20,33 @@ composer require tito10047/doctrine-transaction
 ```yaml
 #service.yaml
 services:
-    Tito10047\DoctrineTransaction\DoctrineTransaction:
+    Tito10047\DoctrineTransaction\TransactionManager:
 ```
 
 ```php
-use Tito10047\DoctrineTransaction\Transaction;
+use Tito10047\DoctrineTransaction\TransactionManager;
 
 class MyService
 {
-    private $transaction;
 
-    public function __construct(Transaction $transaction)
+    public function __construct(private readonly TransactionManager $tm)
     {
-        $this->transaction = $transaction;
     }
 
     public function myMethod()
     {
-        $this->transaction->begin();
+        $transaction = $this->tm->begin();
         try {
             // Your code
-            $this->transaction->commit();
+            $transaction->commit();
         } catch (\Exception $e) {
-            $this->transaction->rollback();
+            $transaction->rollback();
             throw $e;
         }
     }
     
     public function myBatchMethod() {
-        $this->transaction->begin();
+        $transaction = $this->tm->begin();
         try {
             for($i = 0; $i < 100; $i++) {
                 $myEntity = new MyEntity();
@@ -56,21 +54,22 @@ class MyService
                     $transaction->clear(MyEntity::class);
                 }
             }
-            $this->transaction->commit();
+            $transaction->commit();
         } catch (\Exception $e) {
-            $this->transaction->rollback();
+            $transaction->rollback();
             throw $e;
         }    
     }
     
     public function myCallbacksMethod() {
-        $this->transaction->begin();
-        $this->transaction->addCommitHandler(function() {
-            // Your code
-        });
-        $this->transaction->addRollbackHandler(function() {
-            // Your code
-        });
+        $transaction = $this->tm
+            ->begin()
+            ->addCommitHandler(function() {
+                // Your code
+            })
+            ->addRollbackHandler(function() {
+                // Your code
+            });
         try {
             for($i = 0; $i < 100; $i++) {
                 $myEntity = new MyEntity();
@@ -78,20 +77,20 @@ class MyService
                     $transaction->clear(MyEntity::class);
                 }
             }
-            $this->transaction->commit();
+            $transaction->commit();
         } catch (\Exception $e) {
-            $this->transaction->rollback();
+            $transaction->rollback();
             throw $e;
         }
     }
     
     public function multipleConnections() {
-        $this->transaction->begin('connection1','connection2');
+        $transaction = $this->tm->begin('connection1','connection2');
         try {
             // Your code
-            $this->transaction->commit();
+            $transaction->commit();
         } catch (\Exception $e) {
-            $this->transaction->rollback();
+            $transaction->rollback();
             throw $e;
         }
     }

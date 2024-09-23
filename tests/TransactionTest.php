@@ -20,7 +20,7 @@ class TransactionTest extends TestCase
     {
         $mr = $this->createMock(ManagerRegistry::class);
         $em = $this->createMock(EntityManagerInterface::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
         $mr->expects($this->once())
             ->method('getManager')
@@ -36,7 +36,7 @@ class TransactionTest extends TestCase
     {
         $mr = $this->createMock(ManagerRegistry::class);
         $em = $this->createMock(EntityManagerInterface::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
         $mr->expects($this->exactly(2))
             ->method('getManager')
@@ -51,7 +51,7 @@ class TransactionTest extends TestCase
     {
         $mr = $this->createMock(ManagerRegistry::class);
         $em = $this->createMock(EntityManagerInterface::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
         $mr->expects($this->exactly(2))
             ->method('getManager')
@@ -66,7 +66,7 @@ class TransactionTest extends TestCase
     public function testCommitCorrectOrder(){
         $mr = $this->createMock(ManagerRegistry::class);
         $em = $this->createMock(EntityManagerInterface::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
 
         $mr->expects($this->exactly(4))
@@ -84,7 +84,7 @@ class TransactionTest extends TestCase
     {
         $mr = $this->createMock(ManagerRegistry::class);
 
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
         $count = 0;
         $transaction->addCommitHandler(function () use (&$count) {
             $count++;
@@ -98,7 +98,7 @@ class TransactionTest extends TestCase
     {
         $mr = $this->createMock(ManagerRegistry::class);
         $em = $this->createMock(EntityManagerInterface::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
         $mr->expects($this->exactly(4))
             ->method('getManager')
@@ -115,7 +115,7 @@ class TransactionTest extends TestCase
     {
         $mr = $this->createMock(ManagerRegistry::class);
         $em = $this->createMock(EntityManagerInterface::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
         $mr->expects($this->exactly(4))
             ->method('getManager')
@@ -135,7 +135,7 @@ class TransactionTest extends TestCase
     public function testAddRollbackHandler(): void
     {
         $mr = $this->createMock(ManagerRegistry::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
         $count = 0;
         $transaction->addRollbackHandler(function () use (&$count) {
@@ -151,7 +151,7 @@ class TransactionTest extends TestCase
     {
         $mr = $this->createMock(ManagerRegistry::class);
         $em = $this->createMock(EntityManagerInterface::class);
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
 
         $mr->expects($this->exactly(6))
             ->method('getManager')
@@ -177,7 +177,7 @@ class TransactionTest extends TestCase
             ->method('clear');
 
 
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
         $transaction->begin("first");
         $transaction->clear("first");
     }
@@ -195,7 +195,7 @@ class TransactionTest extends TestCase
             ->withConsecutive(['entity1'],['entity2']);
 
 
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
         $transaction->begin("first");
         $transaction->clear("first","entity1","entity2");
     }
@@ -215,7 +215,7 @@ class TransactionTest extends TestCase
 
         $count = 0;
         $commited = 0;
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
         $transaction->addCommitHandler(function () use (&$count) {
             $count++;
         });
@@ -240,7 +240,7 @@ class TransactionTest extends TestCase
             ->withConsecutive(['first'],['second']);
 
 
-        $transaction = new Transaction($mr);
+        $transaction = new Transaction($mr,"default");
         $transaction->begin("first","second");
         $transaction->reset();
     }
