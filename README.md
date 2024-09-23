@@ -30,7 +30,7 @@ use Tito10047\DoctrineTransaction\TransactionManager;
 class MyService
 {
 
-    public function __construct(private readonly TransactionManager $tm)
+    public function __construct(private readonly TransactionManagerInterface $tm)
     {
     }
 
