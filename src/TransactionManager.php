@@ -8,7 +8,6 @@
 
 namespace Tito10047\DoctrineTransaction;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class TransactionManager implements TransactionManagerInterface
@@ -16,7 +15,7 @@ final class TransactionManager implements TransactionManagerInterface
 
     public function __construct(
         private readonly ManagerRegistry $mr,
-        private readonly string          $defaultConnectionName = "default"
+        private readonly string          $defaultConnection = "default"
     ) {}
 
     /**
@@ -24,8 +23,8 @@ final class TransactionManager implements TransactionManagerInterface
      * @param string ...$connection database connection names as they are listed in doctrine.yaml. If no parameter is sent, the default em is used
      * @return Transaction
      */
-    public function begin(string ...$connection): Transaction {
-        $transaction = new Transaction($this->mr, $this->defaultConnectionName);
+    public function beginTransaction(string ...$connection): Transaction {
+        $transaction = new Transaction($this->mr, $this->defaultConnection);
         $transaction->begin(...$connection);
         return $transaction;
     }

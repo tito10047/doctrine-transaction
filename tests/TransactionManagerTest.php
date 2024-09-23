@@ -33,14 +33,14 @@ class TransactionManagerTest extends TestCase
 
         $count=0;
         $tm
-            ->begin()
+            ->beginTransaction()
             ->addCommitHandler(function () use (&$count){
                 $count++;
             })
             ->commit()
         ;
         $tm = new TransactionManager($mr,"second");
-        $tm->begin()->commit();
+        $tm->beginTransaction()->commit();
         $this->assertEquals(1, $count);
 
     }

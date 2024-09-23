@@ -35,7 +35,7 @@ class MyService
 
     public function myMethod()
     {
-        $transaction = $this->tm->begin();
+        $transaction = $this->tm->beginTransaction();
         try {
             // Your code
             $transaction->commit();
@@ -46,7 +46,7 @@ class MyService
     }
     
     public function myBatchMethod() {
-        $transaction = $this->tm->begin();
+        $transaction = $this->tm->beginTransaction();
         try {
             for($i = 0; $i < 100; $i++) {
                 $myEntity = new MyEntity();
@@ -63,7 +63,7 @@ class MyService
     
     public function myCallbacksMethod() {
         $transaction = $this->tm
-            ->begin()
+            ->beginTransaction()
             ->addCommitHandler(function() {
                 // Your code
             })
@@ -85,7 +85,7 @@ class MyService
     }
     
     public function multipleConnections() {
-        $transaction = $this->tm->begin('connection1','connection2');
+        $transaction = $this->tm->beginTransaction('connection1','connection2');
         try {
             // Your code
             $transaction->commit();

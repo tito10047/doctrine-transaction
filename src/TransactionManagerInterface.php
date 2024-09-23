@@ -10,5 +10,5 @@ namespace Tito10047\DoctrineTransaction;
 
 interface TransactionManagerInterface
 {
-    public function begin(string ...$connection): Transaction;
+    public function beginTransaction(string ...$connection): Transaction;
 }
