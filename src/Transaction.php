@@ -5,7 +5,7 @@ namespace Tito10047\DoctrineTransaction;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
-class Transaction implements TransactionInterface{
+final class Transaction implements TransactionInterface{
 
 
 

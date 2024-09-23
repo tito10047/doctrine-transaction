@@ -11,7 +11,7 @@ namespace Tito10047\DoctrineTransaction;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
-class TransactionManager implements TransactionManagerInterface
+final class TransactionManager implements TransactionManagerInterface
 {
 
     public function __construct(
